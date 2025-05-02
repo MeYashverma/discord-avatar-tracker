@@ -8,6 +8,7 @@ import io
 import os
 import asyncio
 from dotenv import load_dotenv
+from datetime import datetime, timedelta
 
 # Load environment variables
 load_dotenv()
@@ -23,6 +24,9 @@ SERVICE_ACCOUNT_FILE = 'discord-avatar-tracker-458606-c982a6d97395.json'
 
 # --- List of User IDs to process ---
 USER_IDS_TO_SAVE = [1296939414655729674]
+
+# --- Timer Configuration ---
+SAVE_INTERVAL = 10  # Time interval in minutes for the next save
 
 async def save_profile_to_drive(user: discord.User):
     if not user:
@@ -46,10 +50,14 @@ async def save_profile_to_drive(user: discord.User):
         service = build('drive', 'v3', credentials=creds)
         print("Google Drive service built successfully.")
 
+        # Generate a timestamped file name
+        timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        file_name = f'{user.name}_{user.discriminator}_{timestamp}.png'
+
         # Upload file to a shared folder (optional)
         shared_folder_id = '1V_hnXF2eufyok92DlaDAD4_GRkp-oRxc'  # Replace with your shared folder ID
         file_metadata = {
-            'name': f'{user.name}_{user.discriminator}_profile.png',
+            'name': file_name,
             'parents': [shared_folder_id]  # Add this line if using a shared folder
         }
         media = io.BytesIO(response.content)
@@ -83,10 +91,20 @@ async def process_users():
         except Exception as e:
             print(f"An error occurred while processing user {user_id}: {e}")
 
+async def countdown_timer():
+    while True:
+        for remaining in range(SAVE_INTERVAL * 60, 0, -1):
+            mins, secs = divmod(remaining, 60)
+            timer = f"{mins:02d}:{secs:02d}"
+            print(f"Time remaining for next save: {timer}", end="\r")
+            await asyncio.sleep(1)
+        print("\nStarting the next save...")
+        await process_users()
+
 @client.event
 async def on_ready():
     print(f'Logged in as {client.user}')
-    await process_users()
+    await countdown_timer()
 
 if __name__ == "__main__":
     client.run(DISCORD_BOT_TOKEN)
