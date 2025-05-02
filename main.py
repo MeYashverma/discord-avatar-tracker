@@ -3,8 +3,8 @@ import os
 from datetime import datetime
 from apscheduler.schedulers.blocking import BlockScheduler
 
-DISCORD_TOKEN = ''
-USER_ID = ''
+DISCORD_TOKEN = 'MTM2Nzc1Njc0Mzg4Njc3MDE5Ng.GiG53h.588oa2v4gJ6z98Sc87emsB-OUZmLFiunR2BZ2w'
+USER_ID = '1296939414655729674'
 
 def get_user_avatar():
     headers = {
