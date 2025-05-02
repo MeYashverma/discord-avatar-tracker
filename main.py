@@ -1,24 +1,37 @@
 import requests
 import os
 from datetime import datetime
-from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 from drive_auth import get_drive
+from dotenv import load_dotenv
 
-DISCORD_TOKEN = 'MTM2Nzc1Njc0Mzg4Njc3MDE5Ng.GiG53h.588oa2v4gJ6z98Sc87emsB-OUZmLFiunR2BZ2w'
-USER_ID = '1296939414655729674'
+# Load environment variables
+load_dotenv()
+
+DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
+USER_ID = os.getenv('USER_ID')
+
+if not DISCORD_TOKEN or not USER_ID:
+    raise ValueError("DISCORD_TOKEN and USER_ID must be set in the environment variables.")
 
 def get_user_avatar():
-    headers = {
-        "Authorization":f"Bot {DISCORD_TOKEN}"
-    }
-    url = f"https://discord.com/api/v10/users/{USER_ID}"
+    try:
+        headers = {
+            "Authorization": f"Bot {DISCORD_TOKEN}"
+        }
+        url = f"https://discord.com/api/v10/users/{USER_ID}"
 
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()  # Raise an exception for HTTP errors
+
         data = response.json()
-        avatar_hash = data['avatar']
-        username = data['username']
-        discriminator = data['discriminator']
+        avatar_hash = data.get('avatar')
+        username = data.get('username', 'unknown')
+        discriminator = data.get('discriminator', '0000')
+
+        if not avatar_hash:
+            print("No avatar found for the user.")
+            return
 
         avatar_url = f"https://cdn.discordapp.com/avatar/{USER_ID}/{avatar_hash}.png?size=1024"
         filename = f"{username}_{discriminator}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
@@ -30,15 +43,23 @@ def get_user_avatar():
 
         print(f"Uploading {filename} to Google Drive...")
         drive = get_drive()
-        file = drive.CreateFile({'title':filename})
+        file = drive.CreateFile({'title': filename})
         file.SetContentFile(filename)
-        file.upload()
+        file.Upload()
 
         print("Upload complete. Cleaning up...")
         os.remove(filename)
-    else:
-        print("Failed to upload the file")
+    except requests.exceptions.RequestException as e:
+        print(f"Error during API request: {e}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
-scheduler = BlockingScheduler()
-scheduler.add_job(get_user_avatar,'interval',hours=12)
-scheduler.start()
+scheduler = BackgroundScheduler()
+scheduler.add_job(get_user_avatar, 'interval', hours=12)
+
+try:
+    print("Starting scheduler...")
+    scheduler.start()
+except (KeyboardInterrupt, SystemExit):
+    print("Shutting down scheduler...")
+    scheduler.shutdown()
