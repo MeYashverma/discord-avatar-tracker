@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "discord-avatar-tracker-458606",
+  "private_key_id": "c982a6d9739505ab3f710e2a41386a08d50b1246",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCswy+QNQVA2mKy\nfsEWwEgHEedNidxe12JCCla3+Aoc54/wtJrKc+lxuki4lz6IWVKhlr6uAYt09Il7\n7i6VEbnLo13cfpZ5M2j5c6gHcoKd+08HvDCgWqK2Yesoq9JX20KKeWguHiICN9tZ\ntv8+OJELYfwjlwV6F4q5gVPoajUHC991+plWbZukMSQ3I+6rijLntNd4k8BwrfW/\nZ+k0iolsbiWbzo4l3n4Ju8K8K9uTrJ4qT4wA3z4i26PnP+GUrvnc8jdaRVnoJyLe\ngnypygT/A1bdx/S8/cch2QIw/sT9mKUpv0tPtebR3RGsHW+bXf/54/ANfd9WOeB2\nQRUTXJPLAgMBAAECggEANisC7Ee7jHCM1qOInj4Ot2zFJdouZuxIaiV8uDUE0rhG\nOPYfvI+oZ9i9OWdum2jKUFEIG13voG2V9+4f2+yRYUipQtvMCVd1uBUr353nV2p3\nBplac8THVMER7xAkpRhh3jIf2KnpBuIFnDUVBajNzZBc8rnE5VmhTPXAXdSDKOBr\nvgoC1wno5OPX/K9HUlHTnpDR6LgTO53PvSibw8E1frx3M54M2Iqkg3VDMTet00Qk\nwsMyXFydBpSid7SvAW52SezupV+g+bGClUs1cdpd7ZzeFOpTKktPLVYVx3gtzT7l\nzZPiWS/SX1hX4Q/dGOuDq/dcw7bxDOWa9uHzGN4x2QKBgQDU/8T8snqfn4Be+4HN\nSUrwF4v7sk12J/1R3U1P4qaP9z6YEofJxyHi4gwD8yWN303srEs4BNBtzrzUnd69\nPs/XSo5X2bWLiPZu74c/FerRekUYTMAy/iVCS+DoP5KTznUh1/fOAJgt3uGxKyd5\nXfIWhIyjR7+BbkQkuD3mCEBagwKBgQDPo+dGgL66k8Pm2FyubfZbCJDBSzlNjt+a\niJrrsJldV9WcWSDJzpZ4brIPhY7iOJP9XvJEp2XJawRKo3hRahq22i9KsjLTRSo7\nya8K2+btmkYQDMFRAJnlv1KnPRBbv7vdgwfrLZ0QhdzrdxQL+E67v73imGlSrUqr\ndZfeMoS/GQKBgHBOR5Qhmwws8meiXudZvLxo/fMBKVyiayvN7qSvUblY2NUf+B7I\n8zIIk+NFQcjTM+gVVDe+OhObzO6iKr5HrxjKA9GIRfPDjIQjoYD+0mgO+v18Al8g\np46UKYrrciKi2hm1IMCqiZKuEPv0UATrJuj+jJTPEMdy11UxG9n9Acl3AoGAKidz\nV4vhrM0880uvnTXz0s1tXeCgtI8x9BSRpxHGQP4I/uHVV0Mapz6J5b7OoDyuRr0U\n4D0/2+FfEKwZTCYHYGHxQe/lg6DCDztFzyWPv2MXoECGqqQ9mjf6Vrt967KEOFdW\nrzcmcOlMTX1yU2/IxDMMIMmicEeAJkkMWO7WplkCgYBFGjlv38TWWLyoRvDveFoX\n8CNCrd3F2bul9wVQpPQdYb813X8zdQTSRaUpM7vgvkVMhgzGgtEav0px2JJ9fCgx\n4oYOMsKB8DAPbYnMxnCJxYzZyQX2E6wtY2qk6RXY5ELdW/GsMpDDe48pHQrbfASM\nzZXOQxRa8g9pD9xylJnSdw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "avatar-tracking-bot@discord-avatar-tracker-458606.iam.gserviceaccount.com",
+  "client_id": "107339256150731724077",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/avatar-tracking-bot%40discord-avatar-tracker-458606.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

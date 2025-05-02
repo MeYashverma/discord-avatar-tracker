@@ -9,18 +9,18 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
+DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 USER_ID = os.getenv('USER_ID')
 
-if not DISCORD_TOKEN or not USER_ID:
-    raise ValueError("DISCORD_TOKEN and USER_ID must be set in the environment variables.")
+if not DISCORD_BOT_TOKEN or not USER_ID:
+    raise ValueError("DISCORD_BOT_TOKEN and USER_ID must be set in the environment variables.")
 
 logging.basicConfig(level=logging.INFO)
 
 def get_user_avatar():
     try:
         headers = {
-            "Authorization": f"Bot {DISCORD_TOKEN}"
+            "Authorization": f"Bot {DISCORD_BOT_TOKEN}"
         }
         url = f"https://discord.com/api/v10/users/{USER_ID}"
 
