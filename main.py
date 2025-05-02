@@ -1,7 +1,8 @@
 import requests
 import os
 from datetime import datetime
-from apscheduler.schedulers.blocking import BlockScheduler
+from apscheduler.schedulers.blocking import BlockingScheduler
+from drive_auth import get_drive
 
 DISCORD_TOKEN = 'MTM2Nzc1Njc0Mzg4Njc3MDE5Ng.GiG53h.588oa2v4gJ6z98Sc87emsB-OUZmLFiunR2BZ2w'
 USER_ID = '1296939414655729674'
@@ -38,6 +39,6 @@ def get_user_avatar():
     else:
         print("Failed to upload the file")
 
-scheduler = BlockScheduler()
+scheduler = BlockingScheduler()
 scheduler.add_job(get_user_avatar,'interval',hours=12)
-schedular.start()
+scheduler.start()
