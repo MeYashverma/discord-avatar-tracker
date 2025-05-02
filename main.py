@@ -43,11 +43,13 @@ def get_user_avatar():
 
         print(f"Uploading {filename} to Google Drive...")
         drive = get_drive()
-        file = drive.CreateFile({'title': filename})
-        file.SetContentFile(filename)
-        file.Upload()
+        file = drive.files().create(
+            body={'name': filename},
+            media_body=filename,
+            fields='id'
+        ).execute()
 
-        print("Upload complete. Cleaning up...")
+        print(f"Upload complete. File ID: {file.get('id')}")
         os.remove(filename)
     except requests.exceptions.RequestException as e:
         print(f"Error during API request: {e}")
