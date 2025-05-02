@@ -37,3 +37,7 @@ def get_user_avatar():
         os.remove(filename)
     else:
         print("Failed to upload the file")
+
+scheduler = BlockScheduler()
+scheduler.add_job(get_user_avatar,'interval',hours=12)
+schedular.start()
