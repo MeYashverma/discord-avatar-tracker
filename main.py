@@ -1,5 +1,6 @@
 import requests
 import os
+import logging
 from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 from drive_auth import get_drive
@@ -13,6 +14,8 @@ USER_ID = os.getenv('USER_ID')
 
 if not DISCORD_TOKEN or not USER_ID:
     raise ValueError("DISCORD_TOKEN and USER_ID must be set in the environment variables.")
+
+logging.basicConfig(level=logging.INFO)
 
 def get_user_avatar():
     try:
@@ -35,12 +38,15 @@ def get_user_avatar():
 
         avatar_url = f"https://cdn.discordapp.com/avatar/{USER_ID}/{avatar_hash}.png?size=1024"
         filename = f"{username}_{discriminator}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
+        file_path = os.path.abspath(filename)  # Get the absolute path of the file
 
         print(f"Downloading avatar from {avatar_url}")
         image = requests.get(avatar_url).content
         with open(filename, 'wb') as f:
             f.write(image)
+        logging.info(f"File {filename} saved successfully.")
 
+        print(f"Avatar saved locally at: {file_path}")
         print(f"Uploading {filename} to Google Drive...")
         drive = get_drive()
         file = drive.files().create(
@@ -50,14 +56,14 @@ def get_user_avatar():
         ).execute()
 
         print(f"Upload complete. File ID: {file.get('id')}")
-        os.remove(filename)
+        # os.remove(filename)  # Comment this line to keep the file
     except requests.exceptions.RequestException as e:
         print(f"Error during API request: {e}")
     except Exception as e:
         print(f"An error occurred: {e}")
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(get_user_avatar, 'interval', hours=12)
+scheduler.add_job(get_user_avatar, 'interval', minutes=10)  # Run every 10 minutes
 
 try:
     print("Starting scheduler...")
