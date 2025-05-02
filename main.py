@@ -10,6 +10,7 @@ import os
 import asyncio
 from dotenv import load_dotenv
 from datetime import datetime
+import glob
 
 # Load environment variables
 load_dotenv()
@@ -47,23 +48,35 @@ async def save_profile_to_drive(user: discord.User):
         with open(new_image_path, "wb") as f:
             f.write(response.content)
 
+        # Maintain only the 5 most recent images
+        temp_images = sorted(glob.glob(f"{user.id}_*.png"), key=os.path.getmtime, reverse=True)
+        if len(temp_images) > 5:
+            for old_image in temp_images[5:]:
+                print(f"Deleting old image: {old_image}")
+                os.remove(old_image)
+
         # Check if a previous image exists
         previous_image_path = f"{user.id}_previous.png"
         if os.path.exists(previous_image_path):
-            # Compare the new image with the previous one
-            print("Comparing with the previously saved image...")
-            new_image = Image.open(new_image_path)
-            previous_image = Image.open(previous_image_path)
+            try:
+                # Compare the new image with the previous one
+                print("Comparing with the previously saved image...")
+                new_image = Image.open(new_image_path)
+                previous_image = Image.open(previous_image_path)
 
-            # Use ImageChops to detect differences
-            diff = ImageChops.difference(new_image, previous_image)
-            if not diff.getbbox():
-                print("The new image is identical to the previous one. Skipping upload.")
+                # Use ImageChops to detect differences
+                diff = ImageChops.difference(new_image, previous_image)
+                if not diff.getbbox():
+                    print("The new image is identical to the previous one. Skipping upload.")
+                    return
+                else:
+                    print("The new image is different from the previous one. Proceeding with upload.")
+            except Exception as e:
+                print(f"Error during image comparison: {e}")
                 return
-            else:
-                print("The new image is different from the previous one. Proceeding with upload.")
 
         # Save the new image as the "previous" image for future comparisons
+        new_image = Image.open(new_image_path)
         new_image.save(previous_image_path)
 
         # Authenticate with Google Drive using service account credentials
